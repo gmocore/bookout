@@ -16,8 +16,8 @@ if (process.env.NODE_ENV === "production") {
 
 
 // Connect to the Mongo DB
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist", 
-// {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://gerritt:gerritt@planet-of-scrapes-wmmte.mongodb.net/test?retryWrites=true&w=majority', 
+{useNewUrlParser: true, useUnifiedTopology: true});
 
 
 

@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+import API from "../utils/API";
 
 function BookCard({src, title, author, description, released }) {
   return (
@@ -6,11 +8,13 @@ function BookCard({src, title, author, description, released }) {
       <div className="col s12 m6">
         <div className="card">
           <div className="card-image">
-            <img src={src} />
+            <img src={src} 
+            alt={title}
+            />
             <span className="card-title">Card Title</span>
-            <a className="btn-floating halfway-fab waves-effect waves-light red">
+            <Link onClick={()=> API.saveBook(title)} to={'/search'} className="btn-floating halfway-fab waves-effect waves-light red">
               <i className="material-icons">add</i>
-            </a>
+            </Link>
           </div>
           <div className="card-content">
             <p title={title}>Title: {title}</p>

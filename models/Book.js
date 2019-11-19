@@ -11,12 +11,18 @@ const bookSchema = new Schema({
         type: String,
         required: true
     }
-    // ,
-    // description: String,
-    // image: String,
-    // link: String
+    ,
+    description: String,
+    image: String,
+    link: String,
+    released: String,
+    rating: String,
+    saved: {
+        type: Boolean,
+        default: false
+    }
 })
 
-const Book = mongoose.Model('Book', bookSchema);
+const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book;

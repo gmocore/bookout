@@ -7,3 +7,21 @@ body {
   margin-top: 10%;
 }
 
+.card-image img {
+  height: 25em;
+}
+
+.search-container {
+  margin-top: 15%;
+}
+
+.input-field input:focus + label {
+  color: #283593 !important;
+}
+
+.input-field input:focus {
+  border-bottom: 1px solid #283593 !important;
+  box-shadow: 0 1px 0 0 #283593 !important
+}
+
+

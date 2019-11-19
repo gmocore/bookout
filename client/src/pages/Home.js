@@ -3,24 +3,20 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="container center mt40">
+    <div className="container center">
       <div className="row">
-        <div className="col s12">
-          This div is 12-columns wide on all screen sizes
-        </div>
-        <div className="col s6">
+        
+        <div className="col s12 m6">
           <div className="card">
             <div className="card-image">
               <img src="https://images.pexels.com/photos/247787/pexels-photo-247787.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                     alt='search-image'
               />
-              <span className="card-title">Card Title</span>
+              <span className="card-title">Search</span>
             </div>
             <div className="card-content">
               <p>
-                I am a very simple card. I am good at containing small bits of
-                information. I am convenient because I require little markup to
-                use effectively.
+                Search for a book you would like to read. Click the + button to add it to your saved books
               </p>
             </div>
             <div className="card-action">
@@ -33,17 +29,15 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="col s6">
+        <div className="col s12 m6">
           <div className="card">
             <div className="card-image">
               <img src="https://images.pexels.com/photos/4636/person-woman-eyes-face.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
-              <span className="card-title">Card Title</span>
+              <span className="card-title">Saved</span>
             </div>
             <div className="card-content">
               <p>
-                I am a very simple card. I am good at containing small bits of
-                information. I am convenient because I require little markup to
-                use effectively.
+                View books you have saved to your list. click the - button to delete it from the list.
               </p>
             </div>
             <div className="card-action">

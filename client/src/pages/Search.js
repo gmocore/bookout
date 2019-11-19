@@ -40,9 +40,25 @@ class Search extends Component {
     
   };
 
+  addNewBook = () => {
+    console.log(this.state.books[0])
+    API.saveBook({
+      title: this.state.books[0].title, 
+      author: this.state.books[0].authors[0],
+      description: this.state.books[0].description,
+      image: this.state.books[0].imageLinks.smallThumbnail,
+      link: this.state.books[0].infoLink,
+      released: this.state.books[0].publishedDate,
+      rating: this.state.books[0].averageRating,
+      saved: true
+    })
+    .then(() => this.setState({books: []}))
+    .catch(err => console.log(err))
+  }
+
   render() {
     return (
-      <div className="container">
+      <div className="container search-container">
         <div className="row">
           <div className="input-field col s12">
             <input
@@ -62,6 +78,7 @@ class Search extends Component {
         <div className="row">
           <div className="input-field col s12">
             <input
+            className=""
               id="author"
               name="author"
               type="text"
@@ -75,7 +92,7 @@ class Search extends Component {
           </div>
         </div>
         <div className="row">
-          <button className="btn" onClick={this.handleFormSubmit}>
+          <button className="btn #283593 indigo darken-3 col" onClick={this.handleFormSubmit}>
             Submit
           </button>
         </div>
@@ -87,6 +104,7 @@ class Search extends Component {
             description={book.description}
             released={book.publishedDate}
             src={book.imageLinks.smallThumbnail}
+            onClick={this.addNewBook}
             />
           </div>
         ))}

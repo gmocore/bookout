@@ -1,11 +1,58 @@
-import React from 'react'
+import React, { Component } from 'react'
+import API from '../utils/API'
+import SavedBookCard from '../components/SavedBookCard';
 
-function Saved() {
-    return (
-        <div className="container center">
-            <h1>This is the saved route</h1>
-        </div>
-    )
+
+class Saved extends Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          books: []
+        };
+      }
+
+      componentDidMount() {
+        this.loadBooks();
+      }
+
+      loadBooks = () => {
+          API.getBooks()
+          .then(response => this.setState({
+              books: response.data
+          }))
+          .catch(err => console.log(err))
+      }
+
+      removeBook = id => {
+        API.deleteBook(id)
+            .then(()=> this.loadBooks())
+            .catch(err => console.log(err))
+      }
+
+    render() {
+        return (
+            <div className="container center">
+                {}
+                {this.state.books
+                .map(book => 
+                    <SavedBookCard 
+                        src={book.image}
+                        title={book.title}
+                        author={book.author}
+                        description={book.description}
+                        link={book.link}
+                        released={book.released}
+                        rating={book.rating}
+                        onClick={()=> this.removeBook(book._id)}
+                        id={book._id}
+                        key={book._id}
+                    />
+                )}
+                
+            </div>
+        );
+    }
 }
 
-export default Saved
+export default Saved;

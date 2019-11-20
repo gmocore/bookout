@@ -12,10 +12,12 @@ class Saved extends Component {
         };
       }
 
+      // load all books on page load
       componentDidMount() {
         this.loadBooks();
       }
 
+    // load all books currently in db and set state to saved books
       loadBooks = () => {
           API.getBooks()
           .then(response => this.setState({
@@ -24,8 +26,10 @@ class Saved extends Component {
           .catch(err => console.log(err))
       }
 
+      // delete book by id
       removeBook = id => {
         API.deleteBook(id)
+            // load current state of books once item is removed
             .then(()=> this.loadBooks())
             .catch(err => console.log(err))
       }

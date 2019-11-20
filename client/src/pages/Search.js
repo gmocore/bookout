@@ -13,6 +13,7 @@ class Search extends Component {
     };
   }
 
+  // set state to value of input
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -20,13 +21,17 @@ class Search extends Component {
     });
   };
 
+  // clear form and reset state once submitted
   clearForm = () => this.setState({ title: "", author: "" });
 
+  // submit form based on value of state
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.author) {
+      // perform search request from google books
       API.findBook({ title: this.state.title, author: this.state.author })
         .then(
+          // set state to returned items
           response =>
             response.data.items
               ? response.data.items.map(book =>
@@ -41,11 +46,13 @@ class Search extends Component {
     this.clearForm();
   };
 
-
+  // add new book to db
   addNewBook = e => {
+    // filter book to match id to ISBN
     const matchingBook = this.state.books.filter(
       book => book.industryIdentifiers[0].identifier === e.target.id
     );
+    // save matching book to db
     API.saveBook({
       title: matchingBook[0].title,
       author: matchingBook[0].authors[0],
@@ -56,6 +63,7 @@ class Search extends Component {
       rating: matchingBook[0].averageRating,
       saved: true
     })
+    // clear results from state
       .then(() => this.setState({ books: [] }))
       .catch(err => console.log(err));
   };

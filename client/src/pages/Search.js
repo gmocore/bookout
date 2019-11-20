@@ -26,6 +26,8 @@ class Search extends Component {
   // clear form and reset state once submitted
   clearForm = () => this.setState({ title: "", author: "" });
 
+  clearResults = () => this.setState({ books: [] })
+
   // submit form based on value of state
   handleFormSubmit = event => {
     event.preventDefault();
@@ -41,9 +43,11 @@ class Search extends Component {
                     books: [...this.state.books, book.volumeInfo]
                   })
                 )
-              : this.setState({ message: 'No Book found, try again'}, ()=> setTimeout(() => {
-                this.setState({ message: 'Search for a book to read'})
-              }, 3000))
+              : this.setState({ message: "No Book found, try again" }, () =>
+                  setTimeout(() => {
+                    this.setState({ message: "Search for a book to read" });
+                  }, 3000)
+                )
         )
         .catch(err => console.log(err));
     }
@@ -67,22 +71,28 @@ class Search extends Component {
       rating: matchingBook[0].averageRating,
       saved: true
     })
-    // clear results from state
-      .then(() => 
-        this.setState({ 
-          books: [], 
-          message: `${matchingBook[0].title} added to saved list`}, 
-          ()=> setTimeout(() => this.setState({ message: 'Search for a book to read'}), 3000)))
+      // clear results from state
+      .then(() =>
+        this.setState(
+          {
+            books: [],
+            message: `${matchingBook[0].title} added to saved list`
+          },
+          () =>
+            setTimeout(
+              () => this.setState({ message: "Search for a book to read" }),
+              3000
+            )
+        )
+      )
 
       .catch(err => console.log(err));
   };
 
   render() {
     return (
-      <div className="container search-container">
-        <SearchMessage 
-          message={this.state.message}
-        />
+      <div className="container search-container white z-depth-3">
+        <SearchMessage message={this.state.message} />
         <div className="row center">
           <div className="input-field col s12">
             <input
@@ -115,12 +125,22 @@ class Search extends Component {
           </div>
         </div>
         <div className="row">
-          <button
-            className="btn #283593 indigo darken-3 col"
-            onClick={this.handleFormSubmit}
-          >
-            Submit
-          </button>
+          <div className="col">
+            <button
+              className="btn #283593 indigo darken-3 "
+              onClick={this.handleFormSubmit}
+            >
+              Search
+            </button>
+          </div>
+          <div className="col">
+            <button
+              className="btn #e53935 red darken-1 "
+              onClick={this.clearResults}
+            >
+              Clear
+            </button>
+          </div>
         </div>
         {this.state.books.map((book, i) => (
           <div key={i} className="container center">
@@ -129,7 +149,11 @@ class Search extends Component {
               author={book.authors[0]}
               description={book.description}
               released={book.publishedDate}
-              src={book.imageLinks ? book.imageLinks.thumbnail : 'https://dubsism.files.wordpress.com/2017/12/image-not-found.png?w=547'}
+              src={
+                book.imageLinks
+                  ? book.imageLinks.thumbnail
+                  : "https://dubsism.files.wordpress.com/2017/12/image-not-found.png?w=547"
+              }
               onClick={this.addNewBook}
               id={
                 book.industryIdentifiers

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import API from '../utils/API'
 import SavedBookCard from '../components/SavedBookCard';
+import Loading from '../components/Loading'
 
 
 class Saved extends Component {
@@ -8,7 +9,8 @@ class Saved extends Component {
         super(props);
     
         this.state = {
-          books: []
+          books: [],
+          loading: false
         };
       }
 
@@ -19,11 +21,13 @@ class Saved extends Component {
 
     // load all books currently in db and set state to saved books
       loadBooks = () => {
-          API.getBooks()
-          .then(response => this.setState({
-              books: response.data
-          }))
-          .catch(err => console.log(err))
+        this.setState({loading: true}, () => API.getBooks()
+        .then(response => this.setState({
+            books: response.data,
+            loading: false
+        }))
+        .catch(err => console.log(err)))
+        
       }
 
       // delete book by id
@@ -37,8 +41,7 @@ class Saved extends Component {
     render() {
         return (
             <div className="container center">
-                {}
-                {this.state.books
+                {this.state.loading ? <Loading /> : this.state.books
                 .map(book => 
                     <SavedBookCard 
                         src={book.image}
@@ -53,7 +56,6 @@ class Saved extends Component {
                         key={book._id}
                     />
                 )}
-                
             </div>
         );
     }

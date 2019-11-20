@@ -9,7 +9,6 @@ function BookCard({src, title, author, description, released, onClick, id }) {
             <img src={src} 
             alt={title}
             />
-            <span className="card-title">{title}</span>
             <p className="btn-floating halfway-fab waves-effect waves-light red">
               <i onClick={onClick} id={id} className="material-icons">add</i>
             </p>

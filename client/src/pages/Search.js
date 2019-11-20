@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import API from "../utils/API";
 import BookCard from "../components/BookCard";
 import SearchMessage from "../components/SearchMessage";
+import Loading from '../components/Loading'
 
 class Search extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class Search extends Component {
       books: [],
       title: "",
       author: "",
-      message: "Search for a book to read"
+      message: "Search for a book to read",
+      loading: false
     };
   }
 
@@ -33,23 +35,24 @@ class Search extends Component {
     event.preventDefault();
     if (this.state.title && this.state.author) {
       // perform search request from google books
-      API.findBook({ title: this.state.title, author: this.state.author })
-        .then(
-          // set state to returned items
-          response =>
-            response.data.items
-              ? response.data.items.map(book =>
-                  this.setState({
-                    books: [...this.state.books, book.volumeInfo]
-                  })
-                )
-              : this.setState({ message: "No Book found, try again" }, () =>
-                  setTimeout(() => {
-                    this.setState({ message: "Search for a book to read" });
-                  }, 3000)
-                )
-        )
-        .catch(err => console.log(err));
+     this.setState({ loading: true}, () =>  API.findBook({ title: this.state.title, author: this.state.author })
+     .then(
+       // set state to returned items
+       response =>
+         response.data.items
+           ? response.data.items.map(book =>
+               this.setState({
+                 books: [...this.state.books, book.volumeInfo],
+                 loading: false
+               })
+             )
+           : this.setState({ message: "No Book found, try again", loading: false }, () =>
+               setTimeout(() => {
+                 this.setState({ message: "Search for a book to read" });
+               }, 3000)
+             )
+     )
+     .catch(err => console.log(err)))
     }
     this.clearForm();
   };
@@ -58,7 +61,9 @@ class Search extends Component {
   addNewBook = e => {
     // filter book to match id to ISBN
     const matchingBook = this.state.books.filter(
-      book => book.industryIdentifiers[0].identifier === e.target.id
+      book => book.industryIdentifiers ? 
+      book.industryIdentifiers[0].identifier === e.target.id : 
+      this.setState({message: "there was an error adding this book"})
     );
     // save matching book to db
     API.saveBook({
@@ -86,11 +91,12 @@ class Search extends Component {
         )
       )
 
-      .catch(err => console.log(err));
+      .catch(err => this.setState({message: "there was an error"}));
   };
 
   render() {
-    return (
+    return ( this.state.loading ? <div className="center"> <Loading />
+      </div> :
       <div className="container search-container white z-depth-3">
         <SearchMessage message={this.state.message} />
         <div className="row center">

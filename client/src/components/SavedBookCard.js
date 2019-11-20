@@ -28,7 +28,7 @@ function SavedBookCard({
               <p description={description} className="#bdbdbd grey-text lighten-1">
                 {description}
               </p>
-              <p released={released}>Released: {released}</p>
+              <p released={released}>Released: {released ? released : 'NA'}</p>
               <a href={link} target="_blank" rel="noopener noreferrer">link to book</a>
               <p rating={rating}>rating: {rating ? rating : "NA"}</p>
               <p

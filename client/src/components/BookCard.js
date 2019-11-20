@@ -17,7 +17,7 @@ function BookCard({src, title, author, description, released, onClick, id }) {
           <div className="card-content">
             <p title={title}>Title: {title}</p>
             <p author={author}>Author: {author}</p>
-            <p description={description} className="truncate">Description: {description}</p>
+            <p description={description} className="truncate">{description}</p>
             <p released={released}>Released: {released}</p>
           </div>
         </div>

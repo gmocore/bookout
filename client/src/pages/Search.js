@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 import BookCard from "../components/BookCard";
+import SearchMessage from "../components/SearchMessage";
 
 class Search extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class Search extends Component {
     this.state = {
       books: [],
       title: "",
-      author: ""
+      author: "",
+      message: "Search for a book to read"
     };
   }
 
@@ -39,7 +41,9 @@ class Search extends Component {
                     books: [...this.state.books, book.volumeInfo]
                   })
                 )
-              : console.log("no match")
+              : this.setState({ message: 'No Book found, try again'}, ()=> setTimeout(() => {
+                this.setState({ message: 'Search for a book to read'})
+              }, 3000))
         )
         .catch(err => console.log(err));
     }
@@ -64,13 +68,21 @@ class Search extends Component {
       saved: true
     })
     // clear results from state
-      .then(() => this.setState({ books: [] }))
+      .then(() => 
+        this.setState({ 
+          books: [], 
+          message: `${matchingBook[0].title} added to saved list`}, 
+          ()=> setTimeout(() => this.setState({ message: 'Search for a book to read'}), 3000)))
+
       .catch(err => console.log(err));
   };
 
   render() {
     return (
       <div className="container search-container">
+        <SearchMessage 
+          message={this.state.message}
+        />
         <div className="row center">
           <div className="input-field col s12">
             <input

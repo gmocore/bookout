@@ -25,8 +25,8 @@ function SavedBookCard({
             <div className="card-content">
               <p title={title}>{title}</p>
               <p author={author}>By: {author}</p>
-              <p description={description} className="">
-                Description: {description}
+              <p description={description} className="#bdbdbd grey-text lighten-1">
+                {description}
               </p>
               <p released={released}>Released: {released}</p>
               <a href={link} target="_blank" rel="noopener noreferrer">link to book</a>

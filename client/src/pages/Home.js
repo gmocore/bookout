@@ -12,7 +12,6 @@ function Home() {
               <img src="https://images.pexels.com/photos/247787/pexels-photo-247787.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                     alt='search-display'
               />
-              <span className="card-title">Search</span>
             </div>
             <div className="card-content">
               <p>
@@ -33,7 +32,6 @@ function Home() {
           <div className="card">
             <div className="card-image">
               <img src="https://images.pexels.com/photos/4636/person-woman-eyes-face.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="woman"/>
-              <span className="card-title">Saved</span>
             </div>
             <div className="card-content">
               <p>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import API from "../utils/API";
 import BookCard from "../components/BookCard";
 import SearchMessage from "../components/SearchMessage";
-import Loading from '../components/Loading'
+import Loading from "../components/Loading";
 
 class Search extends Component {
   constructor(props) {
@@ -25,55 +25,70 @@ class Search extends Component {
     });
   };
 
-  // clear form and reset state once submitted
-  clearForm = () => this.setState({ title: "", author: "" });
-
-  clearResults = () => this.setState({ books: [] })
+  // clear search results
+  clearResults = () => this.setState({ books: [] });
 
   // submit form based on value of state
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.author) {
-      // perform search request from google books
-     this.setState({ loading: true}, () =>  API.findBook({ title: this.state.title, author: this.state.author })
-     .then(
-       // set state to returned items
-       response =>
-         response.data.items
-           ? response.data.items.map(book =>
-               this.setState({
-                 books: [...this.state.books, book.volumeInfo],
-                 loading: false
-               })
-             )
-           : this.setState({ message: "No Book found, try again", loading: false }, () =>
-               setTimeout(() => {
-                 this.setState({ message: "Search for a book to read" });
-               }, 3000)
-             )
-     )
-     .catch(err => console.log(err)))
+      // perform search request from google books. show loading spinner on load
+      this.setState({ loading: true }, () =>
+        API.findBook({ title: this.state.title, author: this.state.author })
+          .then(
+            // set state to returned items
+            response =>
+              response.data.items
+                ? response.data.items.map(book =>
+                    // add books to state. remove spinner, clear form
+                    this.setState({
+                      books: [...this.state.books, book.volumeInfo],
+                      loading: false,
+                      title: "",
+                      author: ""
+                    })
+                  )
+                : // send message if no book is found
+                  this.setState(
+                    { message: "No Book found, try again", loading: false },
+                    () =>
+                      setTimeout(() => {
+                        // reset message to initial state
+                        this.setState({ message: "Search for a book to read" });
+                      }, 3000)
+                  )
+          )
+          .catch(err => console.log(err))
+      );
     }
-    this.clearForm();
   };
 
   // add new book to db
   addNewBook = e => {
     // filter book to match id to ISBN
-    const matchingBook = this.state.books.filter(
-      book => book.industryIdentifiers ? 
-      book.industryIdentifiers[0].identifier === e.target.id : 
-      this.setState({message: "there was an error adding this book"})
+    const matchingBook = this.state.books.filter(book =>
+      book.industryIdentifiers
+        ? book.industryIdentifiers[0].identifier === e.target.id
+        : this.setState({ message: "there was an error adding this book" })
     );
     // save matching book to db
+    const {
+      title,
+      authors,
+      description,
+      imageLinks,
+      infoLink,
+      publishedDate,
+      averageRating
+    } = matchingBook[0];
     API.saveBook({
-      title: matchingBook[0].title,
-      author: matchingBook[0].authors[0],
-      description: matchingBook[0].description,
-      image: matchingBook[0].imageLinks.smallThumbnail,
-      link: matchingBook[0].infoLink,
-      released: matchingBook[0].publishedDate,
-      rating: matchingBook[0].averageRating,
+      title,
+      author: authors[0],
+      description,
+      image: imageLinks.smallThumbnail,
+      link: infoLink,
+      released: publishedDate,
+      rating: averageRating,
       saved: true
     })
       // clear results from state
@@ -91,12 +106,15 @@ class Search extends Component {
         )
       )
 
-      .catch(err => this.setState({message: "there was an error"}));
+      .catch(err => this.setState({ message: "there was an error" }));
   };
 
   render() {
-    return ( this.state.loading ? <div className="center"> <Loading />
-      </div> :
+    return this.state.loading ? (
+      <div className="center">
+        <Loading />
+      </div>
+    ) : (
       <div className="container search-container white z-depth-3">
         <SearchMessage message={this.state.message} />
         <div className="row center">
@@ -148,27 +166,37 @@ class Search extends Component {
             </button>
           </div>
         </div>
-        {this.state.books.map((book, i) => (
-          <div key={i} className="container center">
-            <BookCard
-              title={book.title}
-              author={book.authors[0]}
-              description={book.description}
-              released={book.publishedDate}
-              src={
-                book.imageLinks
-                  ? book.imageLinks.thumbnail
-                  : "https://dubsism.files.wordpress.com/2017/12/image-not-found.png?w=547"
-              }
-              onClick={this.addNewBook}
-              id={
-                book.industryIdentifiers
-                  ? book.industryIdentifiers[0].identifier
-                  : ""
-              }
-            />
-          </div>
-        ))}
+        {this.state.books.map(
+          (
+            {
+              title,
+              authors,
+              description,
+              publishedDate,
+              imageLinks,
+              industryIdentifiers
+            },
+            i
+          ) => (
+            <div key={i} className="container center">
+              <BookCard
+                title={title}
+                author={authors ? authors[0] : "NA"}
+                description={description}
+                released={publishedDate}
+                src={
+                  imageLinks
+                    ? imageLinks.thumbnail
+                    : "https://dubsism.files.wordpress.com/2017/12/image-not-found.png?w=547"
+                }
+                onClick={this.addNewBook}
+                id={
+                  industryIdentifiers ? industryIdentifiers[0].identifier : ""
+                }
+              />
+            </div>
+          )
+        )}
       </div>
     );
   }

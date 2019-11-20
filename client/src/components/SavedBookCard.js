@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 function SavedBookCard({
   src,
@@ -30,7 +29,7 @@ function SavedBookCard({
                 Description: {description}
               </p>
               <p released={released}>Released: {released}</p>
-              <a href={link} target="_blank">link to book</a>
+              <a href={link} target="_blank" rel="noopener noreferrer">link to book</a>
               <p rating={rating}>rating: {rating ? rating : "NA"}</p>
               <p
                 onClick={onClick}

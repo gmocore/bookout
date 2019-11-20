@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 
-function BookCard({src, title, author, description, released, onClick }) {
+function BookCard({src, title, author, description, released, onClick, id }) {
   return (
     <div className="row">
       <div className="col s12 m6">
@@ -11,8 +10,8 @@ function BookCard({src, title, author, description, released, onClick }) {
             alt={title}
             />
             <span className="card-title">{title}</span>
-            <p onClick={onClick} to={'api/books'} className="btn-floating halfway-fab waves-effect waves-light red">
-              <i className="material-icons">add</i>
+            <p className="btn-floating halfway-fab waves-effect waves-light red">
+              <i onClick={onClick} id={id} className="material-icons">add</i>
             </p>
           </div>
           <div className="card-content">

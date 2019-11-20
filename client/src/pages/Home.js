@@ -10,7 +10,7 @@ function Home() {
           <div className="card">
             <div className="card-image">
               <img src="https://images.pexels.com/photos/247787/pexels-photo-247787.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    alt='search-image'
+                    alt='search-display'
               />
               <span className="card-title">Search</span>
             </div>
@@ -32,7 +32,7 @@ function Home() {
         <div className="col s12 m6">
           <div className="card">
             <div className="card-image">
-              <img src="https://images.pexels.com/photos/4636/person-woman-eyes-face.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
+              <img src="https://images.pexels.com/photos/4636/person-woman-eyes-face.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="woman"/>
               <span className="card-title">Saved</span>
             </div>
             <div className="card-content">

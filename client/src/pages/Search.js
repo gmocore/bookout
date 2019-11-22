@@ -155,6 +155,7 @@ class Search extends Component {
         <div className="row">
           <div className="col">
             <button
+            id="search-button"
               className="btn #283593 indigo darken-3 "
               onClick={this.handleFormSubmit}
             >

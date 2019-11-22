@@ -50,7 +50,7 @@ class Search extends Component {
                   )
                 : // send message if no book is found
                   this.setState(
-                    { message: "No Book found, try again", loading: false },
+                    { message: "No Book found, try again", loading: false, title: '', author: '' },
                     () =>
                       setTimeout(() => {
                         // reset message to initial state
@@ -60,6 +60,10 @@ class Search extends Component {
           )
           .catch(err => console.log(err))
       );
+    } else {
+      this.setState({message: 'Both fields are required'}, () => setTimeout(() => {
+        this.setState({message: 'Search for a book to read'})
+      }, 3000))
     }
   };
 

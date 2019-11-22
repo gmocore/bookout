@@ -26,7 +26,7 @@ class Search extends Component {
   };
 
   // clear search results
-  clearResults = () => this.setState({ books: [] });
+  clearResults = () => this.setState({ books: [], title: '', author: '' });
 
   // submit form based on value of state
   handleFormSubmit = event => {
@@ -61,7 +61,7 @@ class Search extends Component {
           .catch(err => console.log(err))
       );
     } else {
-      this.setState({message: 'Both fields are required'}, () => setTimeout(() => {
+      this.setState({message: 'Both fields are required, try a little harder', author: '', title: ''}, () => setTimeout(() => {
         this.setState({message: 'Search for a book to read'})
       }, 3000))
     }
